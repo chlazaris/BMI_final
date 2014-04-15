@@ -8,6 +8,7 @@ from __future__ import division
 from math import ceil
 import pandas as pd
 import numpy as np
+import itertools
 from itertools import repeat
 from itertools import izip as zip, count
 import sys
@@ -56,14 +57,14 @@ chrom_sizes = list(data.ix[:, 1])
 bin_num = bin_calc(chrom_sizes)
 
 # Create the chromosome vector
-chrom_vector = [list(itertools.repeat(chrom_names,bin_num)) for chrom_names,bin_num in zip(chrom_names,bin_num)]
+chrom_vector = [list(itertools.repeat(chrom_name,bin_num)) for chrom_name,bin_num in zip(chrom_names,bin_num)]
 # Flatten the list of lists into one list
 chrom_vector = [item for sublist in chrom_vector for item in sublist]
 chrom_vec_size = len(chrom_vector)
 
 # Now initialize the genome matrix
 # (all zeros)
-genome_matrix = np.zeros(shape=(chrom_vec_size, chrom_vec_size))
+genome_matrix = np.zeros(shape=(chrom_vec_size, chrom_vec_size), dtype=np.int)
 
 # Get the first occurence of a chrom_name in chrom_vector
 # (the corresponding indices)
@@ -108,4 +109,4 @@ for line in fcontent:
         pass 
 
 # Now write the resulting matrix to a file
-np.savetxt(out_file, genome_matrix, delimiter=',')
+np.savetxt(out_file, genome_matrix, delimiter=' ')
