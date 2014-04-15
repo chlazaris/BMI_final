@@ -1,0 +1,10 @@
+chr1:1	chr6:41
+chr1:1	chr9:1
+chr1:1	chr9:118
+chr1:1	chr2:173
+chr1:1	chr19:1
+chr1:1	chr9:136
+chr1:1	chr4:189
+chr1:1	chr3:171
+chr1:1	chr8:78
+chr1:1	chr13:51
