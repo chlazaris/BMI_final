@@ -26,8 +26,8 @@ returns a list where each element is a line.
 
 def read_f_line(fname):
     with open(fname) as f:
-        for line in f:
-            return [line.rstrip() for line in f]
+        #for line in f:
+        return [line.rstrip() for line in f]
 
 # Function to find bins
 '''
