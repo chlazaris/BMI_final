@@ -13,15 +13,22 @@ from itertools import repeat
 from itertools import izip as zip, count
 import sys
 import re
+import os
 
 ##### INPUT AND OUTPUT ###############
-# This file is the output
-# of gtools_hic 
-fname = sys.argv[1]
+# This file is the .reg.gz file 
+input_file = sys.argv[1]
 # The resulution
-res = 100000000
+res = int(sys.argv[2])
+
+# Get the intermediate file (fname) that will
+# be used by the program to produce the final
+# matrix (dat)
+fname = input_file.rstrip("reg.gz") + (".txt")
+os.system("""gtools_hic bin --bin-size %d %s > %s""" %(res, input_file, fname))
+
 # This is the output file
-# (.csv) containing the genome matrix
+# (.dat) containing the genome matrix
 out_file = fname.rstrip("txt") + ("dat")
 
 ########### FUNCTIONS #################
@@ -44,7 +51,7 @@ def read_f_line(fname):
 # Use pandas to import the csv file
 # with the chromosomes and their sizes
 colnames = ['chrom', 'size']
-data = pd.read_csv('hg19_chr_sizes.csv')
+data = pd.read_csv('hg19.genome.bed')
 chrom_names = list(data.ix[:, 0])
 chrom_sizes = list(data.ix[:, 1])
 
