@@ -14,6 +14,16 @@ from itertools import izip as zip, count
 import sys
 import re
 
+##### INPUT AND OUTPUT ###############
+# This file is the output
+# of gtools_hic 
+fname = sys.argv[1]
+# The resulution
+res = 100000000
+# This is the output file
+# (.csv) containing the genome matrix
+out_file = fname.rstrip("txt") + ("dat")
+
 ########### FUNCTIONS #################
 
 # Function to read input file (gz)
@@ -26,25 +36,10 @@ returns a list where each element is a line.
 
 def read_f_line(fname):
     with open(fname) as f:
-        #for line in f:
-        return [line.rstrip() for line in f]
-
-# Function to find bins
-'''
-This function accepts a list with
-the chromosome sizes as input and
-returns another with the corresponding
-number of bins
-'''
-
-
-def bin_calc(x):
-    return [int(ceil(item/res)) for item in x]
+       # for line in f:
+         return [line.rstrip("\n") for line in f]
 
 #######################################
-
-# Define resolution
-res = 1000000
 
 # Use pandas to import the csv file
 # with the chromosomes and their sizes
@@ -54,7 +49,8 @@ chrom_names = list(data.ix[:, 0])
 chrom_sizes = list(data.ix[:, 1])
 
 # Find the number of bins
-bin_num = bin_calc(chrom_sizes)
+bin_num = [int(ceil(chrom_size/res)) for chrom_size in chrom_sizes]
+print bin_num
 
 # Create the chromosome vector
 chrom_vector = [list(itertools.repeat(chrom_name,bin_num)) for chrom_name,bin_num in zip(chrom_names,bin_num)]
@@ -74,10 +70,12 @@ chrom_index = [chrom_vector.index(chrom_name) for chrom_name in chrom_names]
 
 # This file is the output
 # of gtools_hic 
-fname = sys.argv[1]
+#fname = sys.argv[1]
+# The resulution
+#res = sys.argv[2]
 # This is the output file
 # (.csv) containing the genome matrix
-out_file = fname.rstrip("txt") + ("matrix.csv")
+#out_file = fname.rstrip("txt") + ("matrix.csv")
 
 # Open the file and read it
 # line by line
@@ -97,7 +95,7 @@ for line in fcontent:
     # Now add elements to the matrix
     # First find the coordinates i,j
     # where the entry will be put (correct bin)
-    i = chrom_index[int(f_chrom_name)-1] + int(first_bin) - 1
+    i = chrom_index[int(f_chrom_name)-1] + int(first_bin) - 1 
     j = chrom_index[int(sec_chrom_name)-1] + int(sec_bin) - 1
 
     # Now populate the matrix
@@ -109,4 +107,4 @@ for line in fcontent:
         pass 
 
 # Now write the resulting matrix to a file
-np.savetxt(out_file, genome_matrix, delimiter=' ')
+np.savetxt(out_file, genome_matrix, fmt="%d", delimiter=' ')
