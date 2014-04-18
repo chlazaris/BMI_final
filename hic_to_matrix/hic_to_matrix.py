@@ -1,7 +1,7 @@
 #!/bin/python
 
-# Python script that accepts the output of gtools_hic 
-# as input and produces the  Hi-C matrix
+# Python script that accepts the
+# output of gtools_hic as input and produces the  Hi-C matrix
 
 # Import what you will need
 from __future__ import division
@@ -49,9 +49,8 @@ genome_matrix = np.zeros(shape=(chrom_vec_size, chrom_vec_size), dtype=np.int)
 
 ############################################################################
 
-# Read the input (the .reg.gz after processed with gunzip) 
-# line-by-line
-
+# Read the input (the .reg.gz after
+# processed with gunzip) line-by-line
 for line in sys.stdin:
     line.rstrip("\n")
     line = re.split(r' ',line)
@@ -60,21 +59,25 @@ for line in sys.stdin:
     first_bin = int(int(line[3])/res)
     sec_chrom = line[4]
     sec_bin = int(int(line[7])/res)
-    print(first_chrom, first_bin, sec_chrom, sec_bin)
+    #print(first_chrom, first_bin, sec_chrom, sec_bin)
 
-    # Now add elements to the matrix
-    # First find the coordinates i,j
-    # where the entry will be put (correct bin)
-    i = chrom_vector.index(first_chrom) + int(first_bin)  
-    j = chrom_vector.index(sec_chrom) + int(sec_bin) 
+    # Check if both chromosomes are in the
+    # chromosome vector generated from the .bed file
+    if first_chrom in chrom_names and sec_chrom in chrom_names:
+        # Now add elements to the matrix
+        # First find the coordinates i,j
+        # where the entry will be put (correct bin)
+        i = chrom_vector.index(first_chrom) + int(first_bin)
+        j = chrom_vector.index(sec_chrom) + int(sec_bin)
+        # Now populate the matrix
+        genome_matrix[i, j] += 1
 
-    # Now populate the matrix
-    genome_matrix[i,j] += 1
-
-    if i != j:
-        genome_matrix[j,i] += 1
+        if i != j:
+            genome_matrix[j, i] += 1
+        else:
+            pass
     else:
-        pass 
+        pass
 
 # Now write the resulting matrix to a file
 np.savetxt(out_file, genome_matrix, fmt="%d", delimiter=' ')
