@@ -15,49 +15,23 @@ import sys
 import re
 import os
 
-##### INPUT AND OUTPUT ###############
-# This file is the .reg.gz file 
-input_file = sys.argv[1]
-# The resulution
-res = int(sys.argv[2])
-
-# Get the intermediate file (fname) that will
-# be used by the program to produce the final
-# matrix (dat)
-fname = input_file.rstrip("reg.gz") + (".txt")
-os.system("""gtools_hic bin --bin-size %d %s > %s""" %(res, input_file, fname))
-
+############# INPUT AND OUTPUT ##################
 # This is the output file
 # (.dat) containing the genome matrix
-out_file = fname.rstrip("txt") + ("dat")
+out_file = sys.argv[1]
 
-########### FUNCTIONS #################
-
-# Function to read input file (gz)
-'''
-This is a function that reads a file line-by-line,
-strips the new-line character after each line and
-returns a list where each element is a line.
-'''
-
-
-def read_f_line(fname):
-    with open(fname) as f:
-       # for line in f:
-         return [line.rstrip("\n") for line in f]
-
-#######################################
+# The resolution
+res = int(sys.argv[2])
+#################################################
 
 # Use pandas to import the csv file
 # with the chromosomes and their sizes
-colnames = ['chrom', 'size']
-data = pd.read_csv('hg19.genome.bed')
+data = pd.read_csv('hg19.genome.bed', sep='\t', header=None)
 chrom_names = list(data.ix[:, 0])
-chrom_sizes = list(data.ix[:, 1])
+chrom_sizes = list(data.ix[:, 2])
 
-# Find the number of bins
+# Find the number of bins for each chromosome
 bin_num = [int(ceil(chrom_size/res)) for chrom_size in chrom_sizes]
-print bin_num
 
 # Create the chromosome vector
 chrom_vector = [list(itertools.repeat(chrom_name,bin_num)) for chrom_name,bin_num in zip(chrom_names,bin_num)]
@@ -71,39 +45,28 @@ genome_matrix = np.zeros(shape=(chrom_vec_size, chrom_vec_size), dtype=np.int)
 
 # Get the first occurence of a chrom_name in chrom_vector
 # (the corresponding indices)
-chrom_index = [chrom_vector.index(chrom_name) for chrom_name in chrom_names]
+# chrom_index = [chrom_vector.index(chrom_name) for chrom_name in chrom_names]
 
 ############################################################################
 
-# This file is the output
-# of gtools_hic 
-#fname = sys.argv[1]
-# The resulution
-#res = sys.argv[2]
-# This is the output file
-# (.csv) containing the genome matrix
-#out_file = fname.rstrip("txt") + ("matrix.csv")
+# Read the input (the .reg.gz after processed with gunzip) 
+# line-by-line
 
-# Open the file and read it
-# line by line
-fcontent = read_f_line(fname)
-
-for line in fcontent:
-    x = re.split(r'\t+', line)
-    first_chrom = x[0].split(":")
-    f_chrom_name = first_chrom[0].strip("chr")
-    first_bin = first_chrom[1]
-    sec_chrom = x[1].split(":")
-    sec_chrom_name = sec_chrom[0].strip("chr")
-    sec_bin = sec_chrom[1]   
-
-    #print (f_chrom_name, first_bin, sec_chrom_name, sec_bin)
+for line in sys.stdin:
+    line.rstrip("\n")
+    line = re.split(r' ',line)
+    first_chrom = line[0].split("\t")
+    first_chrom = first_chrom[1]
+    first_bin = int(int(line[3])/res)
+    sec_chrom = line[4]
+    sec_bin = int(int(line[7])/res)
+    print(first_chrom, first_bin, sec_chrom, sec_bin)
 
     # Now add elements to the matrix
     # First find the coordinates i,j
     # where the entry will be put (correct bin)
-    i = chrom_index[int(f_chrom_name)-1] + int(first_bin) - 1 
-    j = chrom_index[int(sec_chrom_name)-1] + int(sec_bin) - 1
+    i = chrom_vector.index(first_chrom) + int(first_bin)  
+    j = chrom_vector.index(sec_chrom) + int(sec_bin) 
 
     # Now populate the matrix
     genome_matrix[i,j] += 1
