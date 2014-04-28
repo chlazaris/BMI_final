@@ -1,0 +1,360 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+% which change the colors and layouts of slides. Below this is a list
+% of all the themes, uncomment each in turn to see what they look like.
+
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+% for any slide theme. Uncomment each of these in turn to see how it
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Hi--C evaluation]{Exploring genomic interactions in 3D using Hi--C} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author{Harris A. Lazaris} % Your name
+%\institute[] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+% {
+% University of California \\ % Your institution for the title page
+% \medskip
+% \textit{john@smith.com} % Your email address
+% }
+\date{April 28th 2014} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+\begin{frame}
+\frametitle{Overview} % Table of contents slide, comment this block out to remove it
+\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+%------------------------------------------------
+\section{Introduction} % Sections can be created in order to organize your presentation into discrete blocks, all sections and subsections are automatically printed in the table of contents as an overview of the talk
+%------------------------------------------------
+\subsection{Why we study 3D genome organization?}
+\begin{frame}
+\frametitle{Why we study 3D genome organization?}
+\begin{itemize}
+\item How chromosomes are organized?
+\item Where active genes are located?
+\item Is there a tendency for co-regulated genes to co-localize in the nucleus?
+\item How important and how frequent ~\emph{cis} and ~\emph{trans} genomic
+interactions are for gene transcription?
+\end{itemize}
+\end{frame}
+
+\subsection{How Hi--C works} % (fold)
+\label{sub:how_hi_c_works}
+
+% subsection how_hi_c_works (end)
+\begin{frame}
+\frametitle{How Hi--C works}
+\begin{figure}[tb]
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{./Figures/Hi-C.pdf}
+	\end{center}
+	\caption{\textbf{An overview of the Hi-C technique.}
+	Source: Belton, J.-M. ~\emph{et al.} ~\emph{Methods} 58, 268--276 (2012).}
+	\label{fig:figure1}
+\end{figure}
+\end{frame}
+
+\subsection{Representative Hi--C results} % (fold)
+\label{sub:subsection_name}
+
+% subsection subsection_name (end)
+\begin{frame}
+\frametitle{Representative Hi--C results (1MB resolution)}
+\begin{figure}[tb]
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{./Figures/murine_HindIII_NcoI.pdf}
+	\end{center}
+	\caption{Heatmaps depicting genomic interactions in murine chromosome 1}
+	\label{fig:figure2}
+\end{figure}
+\end{frame}
+
+%------------------------------------------------
+
+\section{Methods} % (fold)
+\label{sec:methods}
+
+\begin{frame}
+\frametitle{Methods}
+\begin{enumerate}
+	\item Python script using Numpy to generate 
+	and export genome interaction matrix.
+	\item R scripts and Python scripts (matplotlib)
+	to generate heatmap.
+	\item Python Pandas to generate boxplots
+	for correlations. 
+\end{enumerate}
+\end{frame}
+
+% section methods (end)
+
+%------------------------------------------------
+
+\section{Results} % (fold)
+\label{sec:results}
+
+\begin{frame}
+\frametitle{ Correlation of Hi--C results (HindIII vs. NcoI, 128kb)}
+\begin{figure}[tb]
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{./Figures/128_boxplot.pdf}
+	\end{center}
+	\caption{Similarity of Hi--C results between technical replicates}
+	\label{fig:figure2}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{ Correlation of Hi--C results (HindIII vs. NcoI, 1024kb)}
+\begin{figure}[tb]
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{./Figures/1024_boxplot.pdf}
+	\end{center}
+	\caption{Similarity of Hi--C results between technical replicates}
+	\label{fig:figure2}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Correlation of Hi--C results (HindIII vs. NcoI, 4096kb)}
+\begin{figure}[tb]
+	\begin{center}
+		\includegraphics[width=0.9\textwidth]{./Figures/4096_boxplot.pdf}
+	\end{center}
+	\caption{Similarity of Hi--C results between technical replicates}
+	\label{fig:figure2}
+\end{figure}
+\end{frame}
+% section results (end)
+
+\section{Conclusion} % (fold)
+\label{sec:conclusion}
+\begin{frame}
+\frametitle{Conclusion}
+\begin{itemize}
+	\item New methods are required to achieve even better
+	consistency of results in replicates.
+	\item Main bottleneck in scripts ~$\rightarrow$ IO
+	\item Pandas and matplolib very interesting but:
+	      \begin{itemize}
+	      	\item Need time to learn
+	      	\item Problems with running on cluster. Many requirements.
+	      	\item Not easily customizable graphs.
+	      \end{itemize}
+\end{itemize}
+\end{frame}
+
+% section conclusion (end)
+
+
+
+
+%------------------------------------------------
+
+% \begin{frame}
+% \frametitle{Blocks of Highlighted Text}
+% \begin{block}{Block 1}
+% Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
+% \end{block}
+
+% \begin{block}{Block 2}
+% Pellentesque sed tellus purus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum quis magna at risus dictum tempor eu vitae velit.
+% \end{block}
+
+% \begin{block}{Block 3}
+% Suspendisse tincidunt sagittis gravida. Curabitur condimentum, enim sed venenatis rutrum, ipsum neque consectetur orci, sed blandit justo nisi ac lacus.
+% \end{block}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}
+% \frametitle{Multiple Columns}
+% \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+
+% \column{.45\textwidth} % Left column and width
+% \textbf{Heading}
+% \begin{enumerate}
+% \item Statement
+% \item Explanation
+% \item Example
+% \end{enumerate}
+
+% \column{.5\textwidth} % Right column and width
+% Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
+
+% \end{columns}
+% \end{frame}
+
+% %------------------------------------------------
+% \section{Second Section}
+% %------------------------------------------------
+
+% \begin{frame}
+% \frametitle{Table}
+% \begin{table}
+% \begin{tabular}{l l l}
+% \toprule
+% \textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
+% \midrule
+% Treatment 1 & 0.0003262 & 0.562 \\
+% Treatment 2 & 0.0015681 & 0.910 \\
+% Treatment 3 & 0.0009271 & 0.296 \\
+% \bottomrule
+% \end{tabular}
+% \caption{Table caption}
+% \end{table}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}
+% \frametitle{Theorem}
+% \begin{theorem}[Mass--energy equivalence]
+% $E = mc^2$
+% \end{theorem}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
+% \frametitle{Verbatim}
+% \begin{example}[Theorem Slide Code]
+% \begin{verbatim}
+% \begin{frame}
+% \frametitle{Theorem}
+% \begin{theorem}[Mass--energy equivalence]
+% $E = mc^2$
+% \end{theorem}
+% \end{frame}\end{verbatim}
+% \end{example}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}
+% \frametitle{Figure}
+% Uncomment the code on this slide to include your own image from the same directory as the template .TeX file.
+% %\begin{figure}
+% %\includegraphics[width=0.8\linewidth]{test}
+% %\end{figure}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
+% \frametitle{Citation}
+% An example of the \verb|\cite| command to cite within the presentation:\\~
+
+% This statement requires citation \cite{p1}.
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}
+% \frametitle{References}
+% \footnotesize{
+% \begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
+% \bibitem[Smith, 2012]{p1} John Smith (2012)
+% \newblock Title of the publication
+% \newblock \emph{Journal Name} 12(3), 45 -- 678.
+% \end{thebibliography}
+% }
+% \end{frame}
+
+% %------------------------------------------------
+% Acknowledgements
+
+\begin{frame}
+\Huge{\centerline{Q \& A}}
+\end{frame}
+
+% %----------------------------------------------------------------------------------------
+
+\end{document}
